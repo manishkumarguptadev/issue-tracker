@@ -3,7 +3,7 @@
 import { Bug } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "../components/mode-toggle";
 const links = [
   { label: "Dashboard", href: "/" },
   { label: "Issues", href: "/issues" },
