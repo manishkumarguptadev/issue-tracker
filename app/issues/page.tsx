@@ -9,13 +9,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import db from "@/prisma/db";
+import Link from "next/link";
 
 export default async function IssuesPage() {
   const issues = await db.issue.findMany();
   return (
     <>
       <div className="mb-4 flex items-center">
-        <Button>New Issue</Button>
+        <Button asChild>
+          <Link href="/issues/new">New Issue</Link>
+        </Button>
       </div>
       <div className="rounded-lg border">
         <Table>
