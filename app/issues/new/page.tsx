@@ -1,26 +1,23 @@
 "use client";
 
-import { issueSchema } from "@/schemas/issueSchema";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { issueSchema } from "@/schemas/issueSchema";
 
-import axios from "axios";
-import { AlertCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 type FormData = z.infer<typeof issueSchema>;
 
 function NewIssuePage() {
   const router = useRouter();
-  const [error, setError] = useState("");
   const { register, handleSubmit, formState } = useForm<FormData>({
     mode: "onBlur",
     resolver: zodResolver(issueSchema),
@@ -33,20 +30,14 @@ function NewIssuePage() {
       await axios.post("/api/issues", data);
       router.push("/issues");
       router.refresh();
+      toast.success("Issue created successfully");
     } catch (error) {
-      setError("Something went wrong, Try submitting again.");
+      toast.error("Issue could not be created");
     }
   };
 
   return (
     <div className="mx-auto max-w-2xl">
-      {error && (
-        <Alert variant="destructive" className="mb-6 max-w-2xl">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
       <Card>
         <CardHeader>
           <CardTitle className="text-muted-foreground">New Issue</CardTitle>

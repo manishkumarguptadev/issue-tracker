@@ -1,11 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -14,10 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import db from "@/prisma/db";
-import { MoreVertical } from "lucide-react";
+
 import Link from "next/link";
+import MoreOptions from "./MoreOptions";
 
 export default async function IssuesPage() {
   const issues = await db.issue.findMany();
@@ -77,19 +72,7 @@ export default async function IssuesPage() {
                   {issue.createdAt.toDateString()}
                 </TableCell>
                 <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem className={cn("focus:bg-destructive")}>
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <MoreOptions id={issue.id} />
                 </TableCell>
               </TableRow>
             ))}
