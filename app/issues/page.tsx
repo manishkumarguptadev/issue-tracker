@@ -1,6 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Table,
   TableBody,
   TableCell,
@@ -8,7 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import db from "@/prisma/db";
+import { MoreVertical } from "lucide-react";
 import Link from "next/link";
 
 export default async function IssuesPage() {
@@ -26,7 +34,8 @@ export default async function IssuesPage() {
             <TableRow className="bg-accent">
               <TableHead>Issue</TableHead>
               <TableHead className="hidden sm:table-cell">Status</TableHead>
-              <TableHead className="hidden md:table-cell">Created</TableHead>
+              <TableHead className="hidden lg:table-cell">Created</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -46,7 +55,7 @@ export default async function IssuesPage() {
                   >
                     {issue.status}
                   </Badge>
-                  <div className="font-medium md:hidden">
+                  <div className="font-medium lg:hidden">
                     {issue.createdAt.toDateString()}
                   </div>
                 </TableCell>
@@ -64,8 +73,23 @@ export default async function IssuesPage() {
                     {issue.status}
                   </Badge>
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell className="hidden lg:table-cell">
                   {issue.createdAt.toDateString()}
+                </TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="icon" variant="ghost">
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      <DropdownMenuItem className={cn("focus:bg-destructive")}>
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
