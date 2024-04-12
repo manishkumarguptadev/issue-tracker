@@ -1,6 +1,7 @@
 import { issueSchema } from "@/schemas/issueSchema";
 import db from "@/prisma/db";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -21,5 +22,6 @@ export async function POST(request: NextRequest) {
   const newIssue = await db.issue.create({
     data: { ...result.data },
   });
+  revalidatePath("/issues");
   return NextResponse.json({ success: true, data: newIssue }, { status: 201 });
 }
