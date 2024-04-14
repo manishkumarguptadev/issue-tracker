@@ -2,6 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import db from "@/prisma/db";
 import { notFound } from "next/navigation";
 import MoreOptions from "./MoreOptions";
+import authOptions from "@/app/auth/authOptions";
+import { getServerSession } from "next-auth";
 
 async function IssueDetailPage({ params }: { params: { id: string } }) {
   if (isNaN(+params.id)) notFound();
@@ -9,6 +11,7 @@ async function IssueDetailPage({ params }: { params: { id: string } }) {
     where: { id: parseInt(params.id) },
   });
   if (!issue) notFound();
+  const session = await getServerSession(authOptions);
 
   return (
     <div className="m-4 grid gap-4 md:grid-cols-[1fr_250px]">
@@ -34,7 +37,7 @@ async function IssueDetailPage({ params }: { params: { id: string } }) {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <MoreOptions id={issue.id} />
+        {session && <MoreOptions id={issue.id} />}
       </div>
     </div>
   );

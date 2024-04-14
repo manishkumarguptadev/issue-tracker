@@ -13,8 +13,11 @@ import db from "@/prisma/db";
 
 import Link from "next/link";
 import MoreOptions from "./MoreOptions";
+import { getServerSession } from "next-auth";
+import authOptions from "../auth/authOptions";
 
 export default async function IssuesPage() {
+  const session = await getServerSession(authOptions);
   const issues = await db.issue.findMany();
   return (
     <>
@@ -76,7 +79,7 @@ export default async function IssuesPage() {
                   {issue.createdAt.toDateString()}
                 </TableCell>
                 <TableCell>
-                  <MoreOptions id={issue.id} />
+                  {session && <MoreOptions id={issue.id} />}
                 </TableCell>
               </TableRow>
             ))}

@@ -32,7 +32,7 @@ function MoreOptions({ id }: { id: number }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem>
-          <Link href={`/issues/${id}/edit`}>Edit</Link>
+          <Link href={`/issues/edit/${id}`}>Edit</Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className={cn("focus:bg-destructive")}

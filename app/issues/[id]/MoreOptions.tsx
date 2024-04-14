@@ -21,7 +21,7 @@ function MoreOptions({ id }: { id: number }) {
   return (
     <>
       <Button asChild>
-        <Link href={`/issues/${id}/edit`}>Edit Issue</Link>
+        <Link href={`/issues/edit/${id}`}>Edit Issue</Link>
       </Button>
       <Button variant={"destructive"} onClick={() => handleDelete(id)}>
         Delete Issue
