@@ -4,6 +4,7 @@ import { Bug } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "../components/mode-toggle";
+import { Button } from "@/components/ui/button";
 const links = [
   { label: "Dashboard", href: "/" },
   { label: "Issues", href: "/issues" },
@@ -31,7 +32,15 @@ function Header() {
           </Link>
         ))}
       </nav>
-      <ModeToggle />
+      <div className="flex gap-2">
+        <Button asChild>
+          <Link href="/api/auth/signin">Sign In</Link>
+        </Button>
+        <Button asChild>
+          <Link href="/api/auth/signout">Sign Out</Link>
+        </Button>
+        <ModeToggle />
+      </div>
     </header>
   );
 }
