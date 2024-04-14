@@ -37,7 +37,11 @@ export default async function IssuesPage() {
             {issues.map((issue) => (
               <TableRow key={issue.id}>
                 <TableCell>
-                  <div className="font-medium">{issue.title}</div>
+                  <div className="font-medium">
+                    <Button asChild variant={"link"}>
+                      <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+                    </Button>
+                  </div>
                   <Badge
                     className={`${
                       issue.status === "CLOSED"
