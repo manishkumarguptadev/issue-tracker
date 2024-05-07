@@ -15,13 +15,15 @@ import Link from "next/link";
 import MoreOptions from "./MoreOptions";
 import { getServerSession } from "next-auth";
 import authOptions from "../auth/authOptions";
+import IssueStatusFilter from "./IssueStatusFilter";
 
 export default async function IssuesPage() {
   const session = await getServerSession(authOptions);
   const issues = await db.issue.findMany();
   return (
     <>
-      <div className="mb-4 flex items-center">
+      <div className="mb-4 flex items-center justify-between">
+        <IssueStatusFilter />
         <Button asChild>
           <Link href="/issues/new">New Issue</Link>
         </Button>
@@ -42,7 +44,9 @@ export default async function IssuesPage() {
                 <TableCell>
                   <div className="font-medium">
                     <Button asChild variant={"link"}>
-                      <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+                      <Link href={`/issues/${issue.id}`} className="pl-0">
+                        {issue.title}
+                      </Link>
                     </Button>
                   </div>
                   <Badge
