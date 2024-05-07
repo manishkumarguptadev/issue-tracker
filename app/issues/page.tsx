@@ -16,10 +16,22 @@ import MoreOptions from "./MoreOptions";
 import { getServerSession } from "next-auth";
 import authOptions from "../auth/authOptions";
 import IssueStatusFilter from "./IssueStatusFilter";
+import { Status } from "@prisma/client";
 
-export default async function IssuesPage() {
+interface Props {
+  searchParams: { status: Status };
+}
+export default async function IssuesPage({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
-  const issues = await db.issue.findMany();
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+  const issues = await db.issue.findMany({
+    where: {
+      status,
+    },
+  });
   return (
     <>
       <div className="mb-4 flex items-center justify-between">
