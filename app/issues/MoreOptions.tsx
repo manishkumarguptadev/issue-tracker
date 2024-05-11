@@ -32,10 +32,12 @@ function MoreOptions({ id }: { id: number }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem>
-          <Link href={`/issues/edit/${id}`}>Edit</Link>
+          <Link className="w-full" href={`/issues/edit/${id}`}>
+            Edit
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
-          className={cn("focus:bg-destructive")}
+          className="cursor-pointer focus:bg-destructive"
           onClick={() => handleDelete(id)}
         >
           Delete
