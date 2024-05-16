@@ -21,7 +21,12 @@ import MoreOptions from "./MoreOptions";
 import Pagination from "./Pagination";
 
 interface Props {
-  searchParams: { status: Status; orderBy: keyof Issue; sort: "asc" | "desc" };
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    sort: "asc" | "desc";
+    page: string;
+  };
 }
 export default async function IssuesPage({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
@@ -47,11 +52,26 @@ export default async function IssuesPage({ searchParams }: Props) {
     ? { [searchParams.orderBy]: searchParams.sort }
     : undefined;
 
+  const pageSize = 10;
+  const issueCount = await db.issue.count({
+    where: {
+      status,
+    },
+  });
+  const pageCount = Math.ceil(issueCount / pageSize);
+
+  const page =
+    +searchParams.page > 1 && +searchParams.page <= pageCount
+      ? +searchParams.page
+      : 1;
+
   const issues = await db.issue.findMany({
     where: {
       status,
     },
     orderBy,
+    take: pageSize,
+    skip: (page - 1) * pageSize,
   });
 
   return (
@@ -151,7 +171,15 @@ export default async function IssuesPage({ searchParams }: Props) {
           </TableBody>
         </Table>
       </div>
-      <Pagination />
+      {pageCount > 1 && (
+        <Pagination
+          searchParams={searchParams}
+          pageCount={pageCount}
+          currentPage={page}
+          pageSize={pageSize}
+          issueCount={issueCount}
+        />
+      )}
     </>
   );
 }
