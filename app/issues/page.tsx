@@ -18,6 +18,7 @@ import { BsArrowUp, BsArrowDown } from "react-icons/bs";
 import authOptions from "../auth/authOptions";
 import IssueStatusFilter from "./IssueStatusFilter";
 import MoreOptions from "./MoreOptions";
+import Pagination from "./Pagination";
 
 interface Props {
   searchParams: { status: Status; orderBy: keyof Issue; sort: "asc" | "desc" };
@@ -150,6 +151,7 @@ export default async function IssuesPage({ searchParams }: Props) {
           </TableBody>
         </Table>
       </div>
+      <Pagination />
     </>
   );
 }
